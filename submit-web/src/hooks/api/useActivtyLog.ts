@@ -12,7 +12,7 @@ const getActivityLogForAdminById = ({
   entityType,
 }: GetActivityLogForAdminByIdParams) => {
   return submitRequest<ActivityLog[]>({
-    url: `staff/activity-logs/${entityType}/${id}`,
+    url: `activity-logs/${entityType}/${id}`,
   });
 };
 

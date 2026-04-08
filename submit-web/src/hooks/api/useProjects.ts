@@ -161,7 +161,7 @@ const getAccountProjectByIdForStaff = ({
   accountProjectId,
 }: GetAccountProjectsByIdForStaffParams) => {
   return submitRequest<AccountProject>({
-    url: `staff/projects/${accountProjectId}`,
+    url: `projects/${accountProjectId}`,
   });
 };
 
@@ -202,7 +202,7 @@ export const getAccountProjectsForStaff = ({
   page,
   pageSize,
 }: GetProjectsByParamsForStaff) => {
-  const url = "/staff/projects";
+  const url = "/projects";
 
   return submitRequest<AccountProjectPage>({
     url,

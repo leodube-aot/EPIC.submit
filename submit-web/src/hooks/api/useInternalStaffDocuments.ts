@@ -13,7 +13,7 @@ export const createInternalStaffDocument = ({
   document,
 }: CreateInternalStaffDocumentFormType) => {
   return submitRequest<InternalStaffDocument>({
-    url: `/staff/internal-staff-documents/packages/${package_id}`,
+    url: `/internal-staff-documents/packages/${package_id}`,
     method: "post",
     data: document,
   });
@@ -49,7 +49,7 @@ export const deleteInternalStaffDocument = ({
   documentId,
 }: DeleteInternalStaffDocumentProps) => {
   return submitRequest<void>({
-    url: `/staff/internal-staff-documents/${documentId}`,
+    url: `/internal-staff-documents/packages/${documentId}`,
     method: "delete",
   });
 };

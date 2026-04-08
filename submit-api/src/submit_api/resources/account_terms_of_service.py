@@ -20,8 +20,8 @@ from flask_restx import Namespace, Resource
 
 from submit_api.auth import auth
 from submit_api.exceptions import ResourceNotFoundError
-from submit_api.resources.apihelper import Api as ApiHelper
 from submit_api.models.account_terms_of_service import TermsOfService as TermsOfServiceModel
+from submit_api.resources.apihelper import Api as ApiHelper
 from submit_api.schemas.account_terms_of_service import TermsOfServiceSchema
 from submit_api.utils.util import allowedorigins, cors_preflight
 

@@ -30,6 +30,7 @@ from submit_api.models import GeoDataUpload, db
 from submit_api.services.geo_processor import GeoService
 from submit_api.utils.util import allowedorigins, cors_preflight
 
+
 API = Namespace("uploads", description="Endpoints for Geospatial Uploads")
 logger = logging.getLogger(__name__)
 

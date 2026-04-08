@@ -32,7 +32,7 @@ const createNewPackageVersion = ({
   data: PackageVersion;
 }) => {
   return submitRequest<SubmissionPackage>({
-    url: `/staff/packages/${originalPackageId}/versions`,
+    url: `/packages/${originalPackageId}/versions`,
     method: "post",
     data,
   });
@@ -129,7 +129,7 @@ export const getStaffSubmissionPackageById = ({
   packageId,
 }: GetSubmissionPackageByIdParams) => {
   return submitRequest<SubmissionPackage>({
-    url: `staff/packages/${packageId}`,
+    url: `packages/${packageId}`,
   });
 };
 
@@ -183,7 +183,7 @@ const getPackageVersionsByOriginalPackageId = ({
   originalPackageId,
 }: GetPackageVersionsByOriginalPackageId) => {
   return submitRequest<PackageVersion[]>({
-    url: `staff/packages/${originalPackageId}/versions`,
+    url: `packages/${originalPackageId}/versions`,
   });
 };
 
@@ -283,7 +283,7 @@ const createPackageUpdateRequest = ({
   data: Record<string, unknown>;
 }) => {
   return submitRequest<SubmissionPackage>({
-    url: `/staff/packages/${packageId}/update-request`,
+    url: `/packages/${packageId}/update-request`,
     method: "post",
     data,
   });
@@ -297,7 +297,7 @@ const acceptUpdateRequest = ({
   updateRequestId: number;
 }) => {
   return submitRequest<SubmissionPackage>({
-    url: `/staff/packages/${packageId}/update-request/${updateRequestId}`,
+    url: `/packages/${packageId}/update-request/${updateRequestId}`,
     method: "patch",
   });
 };

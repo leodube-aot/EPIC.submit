@@ -14,15 +14,15 @@
 """API endpoints for managing a document resource."""
 
 from http import HTTPStatus
-from flask import request
 
+from flask import request
 from flask_cors import cross_origin
 from flask_restx import Namespace, Resource
 
 from submit_api.auth import auth
 from submit_api.models.account_project_search_options import DocumentSearchOptions
 from submit_api.resources.apihelper import Api as ApiHelper
-from submit_api.schemas.submission import SubmittedDocumentByProjectSchema, SubmissionSchema
+from submit_api.schemas.submission import SubmissionSchema, SubmittedDocumentByProjectSchema
 from submit_api.services.submitted_document_service import DocumentService
 from submit_api.utils.roles import EpicSubmitRole
 from submit_api.utils.util import allowedorigins, cors_preflight

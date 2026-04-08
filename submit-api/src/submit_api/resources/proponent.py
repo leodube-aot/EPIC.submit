@@ -22,7 +22,7 @@ from flask_restx import Namespace, Resource
 from submit_api.auth import auth
 from submit_api.exceptions import ResourceNotFoundError
 from submit_api.resources.apihelper import Api as ApiHelper
-from submit_api.schemas.proponent import ProponentSchema, EnableProponentProjectsSchema
+from submit_api.schemas.proponent import EnableProponentProjectsSchema, ProponentSchema
 from submit_api.services.proponent_service import ProponentService
 from submit_api.utils.roles import EpicSubmitRole
 from submit_api.utils.util import allowedorigins, cors_preflight

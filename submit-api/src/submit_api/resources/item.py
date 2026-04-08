@@ -21,7 +21,10 @@ from flask_restx import Namespace, Resource
 from submit_api.auth import auth
 from submit_api.resources.apihelper import Api as ApiHelper
 from submit_api.schemas.item import ItemSchema
+from submit_api.schemas.submission_review import SaveSubmissionReviewRequestSchema, SubmissionReviewSchema
 from submit_api.services.item_service import ItemService
+from submit_api.services.submission_review_service import SubmissionReviewService
+from submit_api.utils.roles import EpicSubmitRole
 from submit_api.utils.util import allowedorigins, cors_preflight
 
 
@@ -53,3 +56,25 @@ class Item(Resource):
         """Get item by id."""
         projects = ItemService.get_item_by_id(item_id)
         return ItemSchema().dump(projects), HTTPStatus.OK
+
+
+@cors_preflight("GET, OPTIONS, POST")
+@API.route("/<int:item_id>/review", methods=["GET", "OPTIONS", "POST"])
+class ItemReview(Resource):
+    """Resource for managing submission item reviews."""
+
+    @staticmethod
+    @ApiHelper.swagger_decorators(
+        API, endpoint_description="Save a review for an item"
+    )
+    @API.response(
+        code=HTTPStatus.OK, model=item_model, description="Submission item review"
+    )
+    @API.response(HTTPStatus.BAD_REQUEST, "Bad Request")
+    @cross_origin(origins=allowedorigins())
+    @auth.has_one_of_staff_roles([EpicSubmitRole.EAO_CREATE.value])
+    def post(item_id):
+        """Save submission review."""
+        request_body = SaveSubmissionReviewRequestSchema().load(API.payload)
+        review = SubmissionReviewService.save_submission_review(item_id, request_body)
+        return SubmissionReviewSchema().dump(review), HTTPStatus.OK

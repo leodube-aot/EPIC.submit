@@ -67,28 +67,8 @@ class InternalStaffDocuments(Resource):
     @API.response(HTTPStatus.NOT_FOUND, "Not found")
     @auth.has_one_of_staff_roles([EpicSubmitRole.EAO_CREATE.value])
     @cross_origin(origins=allowedorigins())
-    def delete(internal_staff_document_id):
+    def delete(package_id):
         """Delete an internal staff document."""
         deleted_document = (InternalStaffDocumentService
-                            .delete_internal_staff_document(internal_staff_document_id))
-        return InternalStaffDocumentSchema().dump(deleted_document), HTTPStatus.OK
-
-
-@cors_preflight("OPTIONS, DELETE")
-@API.route("/<int:internal_staff_document_id>", methods=["OPTIONS", "DELETE"])
-class InternalStaffDocument(Resource):
-    """Resource for managing projects."""
-
-    @staticmethod
-    @ApiHelper.swagger_decorators(API, endpoint_description="Delete an internal staff document")
-    @API.response(
-        code=HTTPStatus.OK, model=internal_document, description="Deleted Internal Staff Document"
-    )
-    @API.response(HTTPStatus.NOT_FOUND, "Not found")
-    @auth.has_one_of_staff_roles([EpicSubmitRole.EAO_CREATE.value])
-    @cross_origin(origins=allowedorigins())
-    def delete(internal_staff_document_id):
-        """Delete an internal staff document."""
-        deleted_document = (InternalStaffDocumentService
-                            .delete_internal_staff_document(internal_staff_document_id))
+                            .delete_internal_staff_document(package_id))
         return InternalStaffDocumentSchema().dump(deleted_document), HTTPStatus.OK

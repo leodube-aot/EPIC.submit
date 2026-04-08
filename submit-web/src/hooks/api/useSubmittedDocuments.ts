@@ -9,7 +9,7 @@ type GetProjectsByParamsForStaff = {
 const getDocumentsForStaff = ({
   searchOptions,
 }: GetProjectsByParamsForStaff) => {
-  const url = "/staff/documents";
+  const url = "/documents";
 
   return submitRequest<SubmittedDocument[]>({
     url,
@@ -46,7 +46,7 @@ export const getSubmittedDocumentsByPackageIdForStaffQueryOptions = ({
     queryKey: [QUERY_KEY.PACKAGE_DOCUMENT_SUBMISSIONS, packageId],
     queryFn: () =>
       submitRequest<Submission[]>({
-        url: `/staff/documents/submissions/packages/${packageId}`,
+        url: `/documents/submissions/packages/${packageId}`,
       }),
     staleTime: 0,
   });

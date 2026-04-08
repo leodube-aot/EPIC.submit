@@ -26,6 +26,7 @@ from submit_api.schemas.account_user import AccountUserSchema, EditRoleSchema, E
 from submit_api.services.account_user_service import AccountUserService
 from submit_api.utils.util import allowedorigins, cors_preflight
 
+
 API = Namespace("accounts", description="Endpoints for Account User Management")
 """Custom exception messages
 """

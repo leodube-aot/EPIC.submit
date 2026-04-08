@@ -48,7 +48,7 @@ const getSubmissionItemByIdForStaff = ({
   itemId,
 }: GetSubmissionItemByIdForStaffParams) => {
   return submitRequest<SubmissionItem>({
-    url: `staff/items/${itemId}`,
+    url: `items/${itemId}`,
   });
 };
 
@@ -81,10 +81,10 @@ type SaveReviewRequestBody = {
 };
 export const saveSubmissionReview = (
   itemId: number,
-  data: SaveReviewRequestBody
+  data: SaveReviewRequestBody,
 ) => {
   return submitRequest<SubmissionReview>({
-    url: `/staff/items/${itemId}/review`,
+    url: `/items/${itemId}/review`,
     method: "post",
     data,
   });

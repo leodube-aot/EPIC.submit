@@ -210,7 +210,7 @@ export const useSoftDeleteSubmission = ({
 
 export const softDeleteSubmission = (submissionId: number) => {
   return submitRequest<Submission>({
-    url: `/staff/submissions/${submissionId}/document`,
+    url: `/submissions/${submissionId}/document/soft-delete`,
     method: "delete",
   });
 };
@@ -232,7 +232,7 @@ export const getSubmissionVersions = (submissionId: number) => {
 
 export const getFailedSubmissionsByItemId = (submissionItemId: number) => {
   return submitRequest<Submission[]>({
-    url: `/staff/documents/failed/items/${submissionItemId}`,
+    url: `/documents/failed/items/${submissionItemId}`,
   });
 };
 

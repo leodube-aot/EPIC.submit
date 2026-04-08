@@ -23,31 +23,27 @@ That are used to expose operational health information about the service, and me
 
 from flask import Blueprint
 
+from .account import API as ACCOUNT_API
+from .account_terms_of_service import API as ACCOUNT_TERMS_OF_SERVICE_API
+from .account_user import API as ACCOUNT_USER_API
+from .activity_log import API as ACTIVITY_LOG_API
 from .apihelper import Api
-from .ops import API as OPS_API
-from .migration_ops import API as MIGRATION_API
-from .proponent.account import API as ACCOUNT_API
-from .proponent.item import API as ITEM_API
-from .proponent.package import API as PACKAGE_API
-from .proponent.project import API as PROJECT_API
-from .proponent.submission import API as SUBMISSION_API
-from .proponent.user import API as USER_API
-from .proponent.account_user import API as ACCOUNT_USER_API
-from .proponent.account_terms_of_service import API as ACCOUNT_TERMS_OF_SERVICE_API
+from .geo import API as GEO_UPLOAD_API
+from .internal_document import API as INTERNAL_DOCUMENT_API
 from .invitation import API as INVITATION_API
-from .proponent.activity_log import API as ACTIVITY_LOG_API
-from .staff.internal_document import API as STAFF_INTERNAL_DOCUMENT_API
-from .staff.item import API as STAFF_ITEM_API
-from .staff.package import API as STAFF_PACKAGE_API
-from .staff.package_type import API as STAFF_PACKAGE_TYPE_API
-from .staff.project import API as STAFF_PROJECT_API
-from .staff.staff_user import API as STAFF_USER_API
-from .staff.submission_item_note import API as STAFF_SUBMISSION_ITEM_NOTE_API
-from .staff.activity_log import API as STAFF_ACTIVITY_LOG_API
-from .staff.submitted_document import API as SUBMITTED_DOCUMENT_API
-from .proponent.proponent import API as PROPONENT_API
-from .proponent.geo import API as GEO_UPLOAD_API
-from .staff.submission import API as STAFF_SUBMISSION_API
+from .item import API as ITEM_API
+from .migration_ops import API as MIGRATION_API
+from .ops import API as OPS_API
+from .package import API as PACKAGE_API
+from .package_type import API as PACKAGE_TYPE_API
+from .project import API as PROJECT_API
+from .proponent import API as PROPONENT_API
+from .staff_user import API as STAFF_USER_API
+from .submission import API as SUBMISSION_API
+from .submission_item_note import API as SUBMISSION_ITEM_NOTE_API
+from .submitted_document import API as SUBMITTED_DOCUMENT_API
+from .user import API as USER_API
+
 
 __all__ = ('API_BLUEPRINT', 'OPS_BLUEPRINT', 'STAFF_API_BLUEPRINT', 'GEO_API_BLUEPRINT')
 
@@ -87,6 +83,10 @@ API.add_namespace(ACCOUNT_USER_API)
 API.add_namespace(ACTIVITY_LOG_API)
 API.add_namespace(ACCOUNT_TERMS_OF_SERVICE_API)
 API.add_namespace(PROPONENT_API)
+API.add_namespace(INTERNAL_DOCUMENT_API)
+API.add_namespace(SUBMITTED_DOCUMENT_API)
+API.add_namespace(SUBMISSION_ITEM_NOTE_API)
+API.add_namespace(STAFF_USER_API)
 
 STAFF_API = Api(
     STAFF_API_BLUEPRINT,
@@ -95,17 +95,7 @@ STAFF_API = Api(
     description='The Core API for staff of SUBMIT'
 )
 
-STAFF_API.add_namespace(STAFF_PROJECT_API)
-STAFF_API.add_namespace(STAFF_PACKAGE_API)
-STAFF_API.add_namespace(STAFF_PACKAGE_TYPE_API)
-STAFF_API.add_namespace(STAFF_ITEM_API)
-STAFF_API.add_namespace(STAFF_INTERNAL_DOCUMENT_API)
-STAFF_API.add_namespace(STAFF_SUBMISSION_ITEM_NOTE_API)
-STAFF_API.add_namespace(STAFF_USER_API)
-STAFF_API.add_namespace(STAFF_ACTIVITY_LOG_API)
-STAFF_API.add_namespace(SUBMITTED_DOCUMENT_API)
-STAFF_API.add_namespace(PROPONENT_API)
-STAFF_API.add_namespace(STAFF_SUBMISSION_API)
+STAFF_API.add_namespace(PACKAGE_TYPE_API)
 
 GEO_API = Api(
     GEO_API_BLUEPRINT,

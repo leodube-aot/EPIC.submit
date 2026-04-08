@@ -11,7 +11,7 @@ type CreateNoteType = {
 };
 export const createNote = ({ submission_item_id, note }: CreateNoteType) => {
   return submitRequest<Note>({
-    url: `/staff/notes/submission-items/${submission_item_id}`,
+    url: `/notes/submission-items/${submission_item_id}`,
     method: "post",
     data: note,
   });
