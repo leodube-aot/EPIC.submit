@@ -28,7 +28,7 @@ def test_create_note_success(client, session, jwt):
     }
 
     response = client.post(
-        f"/api/staff/notes/submission-items/{item.id}",
+        f"/api/notes/submission-items/{item.id}",
         json=payload,
         headers=headers,
     )

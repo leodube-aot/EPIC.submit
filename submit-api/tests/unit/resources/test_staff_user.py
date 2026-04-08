@@ -37,7 +37,7 @@ def test_get_staff_user_by_guid(client, session, jwt):
 
     # Make request
     headers = factory_auth_header(jwt=jwt, claims=TestJwtClaims.staff_admin_role)
-    response = client.get(f"/api/staff/staff-user/{auth_guid}", headers=headers)
+    response = client.get(f"/api/staff-user/{auth_guid}", headers=headers)
 
     assert response.status_code == HTTPStatus.OK
     data = response.get_json()
@@ -50,14 +50,14 @@ def test_get_staff_user_by_guid(client, session, jwt):
 def test_get_staff_user_not_found(client, session, jwt):
     """Test fetching a non-existent staff user."""
     headers = factory_auth_header(jwt=jwt, claims=TestJwtClaims.staff_admin_role)
-    response = client.get("/api/staff/staff-user/non-existent-guid", headers=headers)
+    response = client.get("/api/staff-user/non-existent-guid", headers=headers)
 
     assert response.status_code == HTTPStatus.NOT_FOUND
 
 
 def test_get_staff_user_unauthorized(client, session):
     """Test fetching staff user without authentication."""
-    response = client.get("/api/staff/staff-user/some-guid")
+    response = client.get("/api/staff-user/some-guid")
 
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
@@ -89,7 +89,7 @@ def test_create_staff_user_success(client, session, jwt):
         }
 
         headers = factory_auth_header(jwt=jwt, claims=TestJwtClaims.staff_admin_role)
-        response = client.post("/api/staff/staff-user/", json=payload, headers=headers)
+        response = client.post("/api/staff-user/", json=payload, headers=headers)
 
         assert response.status_code == HTTPStatus.CREATED
         data = response.get_json()
@@ -110,7 +110,7 @@ def test_create_staff_user_missing_email(client, session, jwt):
     }
 
     headers = factory_auth_header(jwt=jwt, claims=TestJwtClaims.staff_admin_role)
-    response = client.post("/api/staff/staff-user/", json=payload, headers=headers)
+    response = client.post("/api/staff-user/", json=payload, headers=headers)
 
     assert response.status_code == HTTPStatus.BAD_REQUEST
     data = response.get_json()
@@ -124,7 +124,7 @@ def test_create_staff_user_missing_group_name(client, session, jwt):
     }
 
     headers = factory_auth_header(jwt=jwt, claims=TestJwtClaims.staff_admin_role)
-    response = client.post("/api/staff/staff-user/", json=payload, headers=headers)
+    response = client.post("/api/staff-user/", json=payload, headers=headers)
 
     assert response.status_code == HTTPStatus.BAD_REQUEST
     data = response.get_json()
@@ -145,7 +145,7 @@ def test_create_staff_user_keycloak_error(client, session, jwt):
         }
 
         headers = factory_auth_header(jwt=jwt, claims=TestJwtClaims.staff_admin_role)
-        response = client.post("/api/staff/staff-user/", json=payload, headers=headers)
+        response = client.post("/api/staff-user/", json=payload, headers=headers)
 
         assert response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR
         data = response.get_json()
@@ -159,7 +159,7 @@ def test_create_staff_user_unauthorized(client, session):
         "group_name": "EAO_VIEW"
     }
 
-    response = client.post("/api/staff/staff-user/", json=payload)
+    response = client.post("/api/staff-user/", json=payload)
 
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
@@ -173,7 +173,7 @@ def test_create_staff_user_without_manage_users_role(client, session, jwt):
     }
 
     headers = factory_auth_header(jwt=jwt, claims=TestJwtClaims.proponent_role)
-    response = client.post("/api/staff/staff-user/", json=payload, headers=headers)
+    response = client.post("/api/staff-user/", json=payload, headers=headers)
 
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
@@ -198,7 +198,7 @@ def test_get_staff_user_with_existing_user(client, session, jwt):
     session.commit()
 
     headers = factory_auth_header(jwt=jwt, claims=TestJwtClaims.staff_admin_role)
-    response = client.get(f"/api/staff/staff-user/{auth_guid}", headers=headers)
+    response = client.get(f"/api/staff-user/{auth_guid}", headers=headers)
 
     assert response.status_code == HTTPStatus.OK
     data = response.get_json()
@@ -237,9 +237,9 @@ def test_create_staff_user_idempotent(client, session, jwt):
         headers = factory_auth_header(jwt=jwt, claims=TestJwtClaims.staff_admin_role)
 
         # First creation
-        response1 = client.post("/api/staff/staff-user/", json=payload, headers=headers)
+        response1 = client.post("/api/staff-user/", json=payload, headers=headers)
         assert response1.status_code == HTTPStatus.CREATED
 
         # Second creation - should still succeed (idempotent)
-        response2 = client.post("/api/staff/staff-user/", json=payload, headers=headers)
+        response2 = client.post("/api/staff-user/", json=payload, headers=headers)
         assert response2.status_code == HTTPStatus.CREATED

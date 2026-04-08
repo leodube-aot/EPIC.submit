@@ -9,7 +9,7 @@ class TestStaffPackageVersions:
     """Test staff package versions endpoint."""
 
     def test_get_package_versions_as_staff(self, client, session, jwt):
-        """Test GET /api/staff/packages/{id}/versions returns versions for a staff user."""
+        """Test GET /api/packages/{id}/versions returns versions for a staff user."""
         # Step 1: Create package as proponent
         headers, account_project = setup_authenticated_proponent(session, jwt)
         payload = TestPackageScenarios.get_payload()
@@ -25,7 +25,7 @@ class TestStaffPackageVersions:
 
         # Step 3: Call the staff versions endpoint
         response = client.get(
-            f"/api/staff/packages/{original_package_id}/versions",
+            f"/api/packages/{original_package_id}/versions",
             headers=headers,
         )
         assert response.status_code == HTTPStatus.OK

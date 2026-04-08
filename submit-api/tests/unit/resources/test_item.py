@@ -21,6 +21,8 @@ from tests.utilities.factory_utils import set_global_token_info
 
 fake = Faker()
 
+ITEMS_URL = "/api/items"
+
 
 def test_create_review_consultation_record_success(client, session, jwt):
     """Test creating a review for a submission item."""
@@ -54,7 +56,7 @@ def test_create_review_consultation_record_success(client, session, jwt):
 
     # Make the POST request to create a review
     response = client.post(
-        f"/api/staff/items/{cr_item.id}/review",
+        f"{ITEMS_URL}/{cr_item.id}/review",
         json=payload,
         headers=headers,
     )
@@ -115,7 +117,7 @@ def test_create_review_consultation_record_fail(client, session, jwt):
 
     # Make the POST request to create a review
     response = client.post(
-        f"/api/staff/items/{cr_item.id}/review",
+        f"{ITEMS_URL}/{cr_item.id}/review",
         json=payload,
         headers=headers,
     )
@@ -171,7 +173,7 @@ def test_approve_management_plan_item_satisfaction(client, session, jwt):
 
     # Make the POST request to approve the management plan item
     response = client.post(
-        f"/api/staff/items/{mp_item.id}/review",
+        f"{ITEMS_URL}/{mp_item.id}/review",
         json=payload,
         headers=headers,
     )
@@ -230,7 +232,7 @@ def test_approve_management_plan_item_acceptance(client, session, jwt):
 
     # Make the POST request to approve the management plan item
     response = client.post(
-        f"/api/staff/items/{mp_item.id}/review",
+        f"{ITEMS_URL}/{mp_item.id}/review",
         json=payload,
         headers=headers,
     )
@@ -289,7 +291,7 @@ def test_approve_management_plan_item_approval(client, session, jwt):
 
     # Make the POST request to approve the management plan item
     response = client.post(
-        f"/api/staff/items/{mp_item.id}/review",
+        f"{ITEMS_URL}/{mp_item.id}/review",
         json=payload,
         headers=headers,
     )
@@ -347,7 +349,7 @@ def test_review_iem_package(client, session, jwt):
 
     # Make the POST request to review the IEM package
     response = client.post(
-        f"/api/staff/items/{iem_item.id}/review",
+        f"{ITEMS_URL}/{iem_item.id}/review",
         json=payload,
         headers=headers,
     )
@@ -408,7 +410,7 @@ def test_fail_management_plan_item(client, session, jwt):
 
     # Make the POST request to reject the management plan item
     response = client.post(
-        f"/api/staff/items/{mp_item.id}/review",
+        f"{ITEMS_URL}/{mp_item.id}/review",
         json=payload,
         headers=headers,
     )
@@ -429,7 +431,7 @@ def test_fail_management_plan_item(client, session, jwt):
     assert deserialized_data["status"].value == payload["status"]
     assert deserialized_data["item_id"] == mp_item.id
     versions_response = client.get(
-        f"/api/staff/packages/{package.version.original_package_id}/versions",
+        f"/api/packages/{package.version.original_package_id}/versions",
         json=payload,
         headers=headers,
     )
@@ -476,7 +478,7 @@ def test_fail_iem_item(client, session, jwt):
 
     # Make the POST request to reject the management plan item
     response = client.post(
-        f"/api/staff/items/{iem_item.id}/review",
+        f"{ITEMS_URL}/{iem_item.id}/review",
         json=payload,
         headers=headers,
     )
@@ -497,7 +499,7 @@ def test_fail_iem_item(client, session, jwt):
     assert deserialized_data["status"].value == payload["status"]
     assert deserialized_data["item_id"] == iem_item.id
     versions_response = client.get(
-        f"/api/staff/packages/{package.version.original_package_id}/versions",
+        f"/api/packages/{package.version.original_package_id}/versions",
         json=payload,
         headers=headers,
     )
