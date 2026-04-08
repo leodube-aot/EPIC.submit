@@ -4,7 +4,6 @@ Tests for internal staff document resource endpoints.
 """
 
 from http import HTTPStatus
-from unittest.mock import MagicMock, patch
 
 from faker import Faker
 

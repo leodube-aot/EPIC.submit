@@ -153,7 +153,7 @@ class PackageVersions(Resource):
     @API.response(HTTPStatus.NOT_FOUND, "Not Found")
     @cross_origin(origins=allowedorigins())
     @auth.has_one_of_staff_roles([EpicSubmitRole.EAO_CREATE.value])
-    def post(original_package_id):
+    def post():
         """Create a new package version."""
         package_version_data = CreatePackageVersionSchema().load(API.payload)
         package_with_created_package_version = PackageService.create_new_package_version_with_contacts(

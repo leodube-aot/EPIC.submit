@@ -86,5 +86,5 @@ class StaffUserCreate(Resource):
         try:
             StaffUserService.create_and_assign_group(email=email, group_name=group_name)
             return {"message": f"User '{email}' created and assigned role '{group_name}'."}, HTTPStatus.CREATED
-        except Exception as e:  # noqa: B901, E722
+        except Exception as e:  # pylint:disable=broad-exception-caught  # noqa: B902
             return {"message": str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR

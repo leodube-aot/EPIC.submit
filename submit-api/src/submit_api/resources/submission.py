@@ -196,6 +196,6 @@ class SubmissionItemGeoProcess(Resource):
                 'message': f'Triggered {len(triggered_uploads)} geo-processes',
                 'uploads': triggered_uploads
             }), HTTPStatus.ACCEPTED
-        except Exception as e:  # noqa: B902
+        except Exception as e:  # pylint:disable=broad-exception-caught. # noqa: B902
             current_app.logger.exception(f"Error triggering geo process: {e}")
             return jsonify({'error': str(e)}), HTTPStatus.INTERNAL_SERVER_ERROR
