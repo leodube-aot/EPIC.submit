@@ -143,7 +143,7 @@ class DocumentSubmissionCreator(SubmissionCreatorFactory):
         """Create a new document submission."""
         submitted_document = self._create_submitted_document(session, request_data)
         root_submission_id = self._resolve_root_submission_id_from_previous_version(
-            item_id, submitted_document.folder
+            item_id, submitted_document.folder, submitted_document.name
         )
         submission_data = {
             "item_id": item_id,
@@ -439,13 +439,19 @@ class DocumentSubmissionCreator(SubmissionCreatorFactory):
         ).first()
 
     @staticmethod
-    def _resolve_root_submission_id_from_previous_version(item_id, folder=None):
+    def _resolve_root_submission_id_from_previous_version(item_id, folder=None, name=None):
         """Look up root_submission_id from the previous package version's matching item.
 
         When a document is uploaded to a revision package (version 2+), this finds
         the corresponding submission on the previous package version (matched by item
         type_id and document folder) and returns its root_submission_id so the new
         submission continues the same version lineage.
+
+        When multiple previous submissions share the same folder, the match is
+        disambiguated first by document name, then by falling back to the latest
+        version's lineage. Since all versions of a document within a package share
+        the same root_submission_id, choosing the latest is sufficient to continue
+        the correct lineage.
         """
         previous_item = DocumentSubmissionCreator._find_previous_version_item(
             item_id
@@ -472,34 +478,57 @@ class DocumentSubmissionCreator(SubmissionCreatorFactory):
         if not previous_submissions:
             return None
 
-        # If a folder is provided, try to match by folder for specificity
+        # If a folder is provided, narrow to submissions in the same folder.
         if folder:
-            matching = [
+            folder_matches = [
                 s for s in previous_submissions
                 if s.submitted_document
                 and s.submitted_document.folder == folder
             ]
-            if len(matching) == 1:
-                return matching[0].root_submission_id
-            if len(matching) > 1:
-                current_app.logger.debug(
-                    "Multiple previous submissions found for "
-                    "folder '%s' on item %s. "
-                    "Skipping root_submission_id linkage.",
-                    folder, previous_item.id
+            if folder_matches:
+                return DocumentSubmissionCreator._pick_root_submission_id(
+                    folder_matches, name, previous_item.id
                 )
-                return None
 
-        # No folder match or no folder provided — link only if one
-        if len(previous_submissions) == 1:
-            return previous_submissions[0].root_submission_id
-
-        current_app.logger.debug(
-            "Multiple previous submissions found on item %s. "
-            "Skipping root_submission_id linkage.",
-            previous_item.id
+        # No folder provided or no folder matches — resolve against all submissions.
+        return DocumentSubmissionCreator._pick_root_submission_id(
+            previous_submissions, name, previous_item.id
         )
-        return None
+
+    @staticmethod
+    def _pick_root_submission_id(candidates, name, previous_item_id):
+        """Pick the root_submission_id from candidate previous submissions.
+
+        Candidates are expected to be ordered by version descending. When a name is
+        provided and uniquely matches a candidate, that candidate's lineage is used.
+        Otherwise the latest version's root_submission_id is returned so the lineage
+        is continued rather than dropped.
+        """
+        if not candidates:
+            return None
+
+        # Prefer a unique match by document name (the same document re-uploaded).
+        if name:
+            name_matches = [
+                s for s in candidates
+                if s.submitted_document and s.submitted_document.name == name
+            ]
+            if len(name_matches) == 1:
+                return name_matches[0].root_submission_id
+
+        # Fall back to the latest version's lineage. All versions of a document
+        # within a package share the same root_submission_id, so taking the latest
+        # continues the correct lineage instead of self-rooting a new one.
+        distinct_roots = {
+            s.root_submission_id for s in candidates if s.root_submission_id
+        }
+        if len(distinct_roots) > 1:
+            current_app.logger.debug(
+                "Multiple distinct document lineages found on item %s. "
+                "Using the latest version's lineage.",
+                previous_item_id
+            )
+        return candidates[0].root_submission_id
 
     @classmethod
     def get_document_version(cls, item_id, original_submission_id=None):
