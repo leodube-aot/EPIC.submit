@@ -54,7 +54,7 @@ class AuthService:
     @staticmethod
     def get_users():
         """Get all users from epic.auth."""
-        response = _request_auth_service("users")
+        response = _request_auth_service("users", include_app_id=False)
         return response.json()
 
     @staticmethod
@@ -174,6 +174,7 @@ def _request_auth_service(
     relative_url: str,
     http_method: HttpMethod = HttpMethod.GET,
     data=None,
+    include_app_id: bool = True,
 ):
     """Make a REST API call to epic.auth service."""
     token = _get_token()
@@ -187,8 +188,9 @@ def _request_auth_service(
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {token}",
-        "App-Id": AUTH_APP,
     }
+    if include_app_id:
+        headers["App-Id"] = AUTH_APP
 
     url = f"{auth_base_url}/api/{relative_url}"
 
