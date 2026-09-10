@@ -200,7 +200,7 @@ values (
 );
 
 insert into condition.documents (
-  document_id, document_type_id, document_label, document_file_name,
+  document_id, document_type_id, document_category_id, document_label, document_file_name,
   date_issued, act, first_nations, consultation_records_required,
   is_latest_amendment_added, is_active, project_id,
   created_date, updated_date, created_by, updated_by
@@ -208,6 +208,7 @@ insert into condition.documents (
 select
   'ZZZ-SUBMIT-SMOKE-CERT',
   dt.id,
+  dc.id,
   'ZZZ Smoke Certificate',
   'zzz-smoke-certificate.pdf',
   current_date,
@@ -222,7 +223,9 @@ select
   'prod-smoke-seed',
   'prod-smoke-seed'
 from condition.document_types dt
+cross join condition.document_categories dc
 where dt.document_type = 'Certificate'
+  and dc.category_name = 'Certificate and Amendments'
 limit 1;
 
 with mp_condition as (
