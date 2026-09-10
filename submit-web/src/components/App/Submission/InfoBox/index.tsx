@@ -1,4 +1,4 @@
-import { SubmissionPackage, SubmissionPackageType } from "@/models/Package";
+import { MANAGEMENT_PLAN_RELATED_TYPES, SubmissionPackage } from "@/models/Package";
 import { Grid, Stack, Typography } from "@mui/material";
 import { BCDesignTokens } from "epic.theme";
 import { get, isArray } from "lodash";
@@ -82,8 +82,7 @@ export const InfoBox = ({
       >
         <If
           condition={
-            submissionPackage.type.name ===
-            SubmissionPackageType.MANAGEMENT_PLAN
+            MANAGEMENT_PLAN_RELATED_TYPES.includes(submissionPackage.type.name)
           }
         >
           <Then>

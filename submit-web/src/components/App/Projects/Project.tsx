@@ -1,6 +1,6 @@
 import { ContentBox } from "@/components/Shared/Layouts/ContentBox";
 import { AccountProject } from "@/models/Project";
-import { SubmissionPackageType } from "@/models/Package";
+import { MANAGEMENT_PLAN_RELATED_TYPES } from "@/models/Package";
 import { USER_TYPE } from "@/models/User";
 import { useAccount } from "@/store/accountStore";
 import { useNavigate } from "@tanstack/react-router";
@@ -56,17 +56,17 @@ export const Project = ({ accountProject }: ProjectParam) => {
             />
           );
         })}
-      {((is_proponent && accountProject.project.has_approved_condition) ||
-        (!is_proponent &&
-          accountProject.packages.some(
-            (pkg) => pkg.type.name === SubmissionPackageType.MANAGEMENT_PLAN,
-          ))) && (
+        {((is_proponent && accountProject.project.has_approved_condition) ||
+          (!is_proponent &&
+            accountProject.packages.some((pkg) =>
+              MANAGEMENT_PLAN_RELATED_TYPES.includes(pkg.type.name),
+            ))) && (
           <ProjectSubmissionsCard
             title="Management Plans & Related Documents"
             status={PROJECT_STATUS.POST_DECISION}
             isWorkRelated={false}
-            packages={accountProject.packages.filter(
-              (pkg) => pkg.type.name === SubmissionPackageType.MANAGEMENT_PLAN,
+            packages={accountProject.packages.filter((pkg) =>
+              MANAGEMENT_PLAN_RELATED_TYPES.includes(pkg.type.name),
             )}
             onNewSubmission={handleNewSubmission}
           />

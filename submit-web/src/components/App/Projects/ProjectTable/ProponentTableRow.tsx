@@ -1,7 +1,7 @@
 import dateUtils from "@/utils/dateUtils";
 import { Chip, Typography } from "@mui/material";
 import { BCDesignTokens } from "epic.theme";
-import { SubmissionPackage, SubmissionPackageType } from "@/models/Package";
+import { MANAGEMENT_PLAN_RELATED_TYPES, SubmissionPackage } from "@/models/Package";
 import { PackageStatusChipStack } from "@/components/App/PackageStatusChip/PackageStatusChipStack";
 import {
   StyledProjectTableCell,
@@ -24,13 +24,13 @@ export default function ProponentTableRow({ subPackage }: ProjectRowProps) {
   };
 
   const managementPlanName = useManagementPlanName(subPackage);
-  const isMP = subPackage.type.name === SubmissionPackageType.MANAGEMENT_PLAN;
+  const isMPRelated = MANAGEMENT_PLAN_RELATED_TYPES.includes(subPackage.type.name);
   const conditionNumber = subPackage.meta?.main_condition?.condition_number;
 
   return (
     <>
       <StyledProjectTableRow>
-        {isMP && (
+        {isMPRelated && (
           <StyledProjectTableCell align="left" sx={{ width: "5%" }}>
             {conditionNumber && (
               <Chip
@@ -42,7 +42,7 @@ export default function ProponentTableRow({ subPackage }: ProjectRowProps) {
             )}
           </StyledProjectTableCell>
         )}
-        <StyledProjectTableCell sx={{ width: isMP ? "50%" : "55%" }}>
+        <StyledProjectTableCell sx={{ width: isMPRelated ? "50%" : "55%" }}>
           <SubmitLink
             sx={{
               display: "flex",

@@ -199,7 +199,7 @@ export const IemSubmissionProponentView = () => {
     <SubmissionFormContainer>
       <SubmitLoaderBackdrop isOpen={isBackdropOpen} />
       <FormProvider {...methods}>
-        <Form onSubmit={handleSubmit(handleCompleteForm)} methods={methods}>
+        <Form methods={methods}>
           <Grid container spacing={BCDesignTokens.layoutMarginMedium}>
             <Grid item xs={12}>
               <BarBlueTitle title="Independent Environmental Monitor Terms of Engagement Requirements" />
@@ -208,7 +208,10 @@ export const IemSubmissionProponentView = () => {
               <FormFieldSection errors={errors} />
               <GenericDocumentUploadSection sections={documentUploadSections} />
             </Grid>
-            <SubmissionActionButtons saveAndClose={saveAndClose} />
+            <SubmissionActionButtons               
+              onSubmit={handleSubmit(handleCompleteForm)}
+              saveAndClose={saveAndClose}
+            />
           </Grid>
         </Form>
       </FormProvider>

@@ -41,7 +41,7 @@ import { useDocumentChangeTracking } from "@/hooks/useDocumentChangeTracking";
 import { useManagementPlanName } from "@/hooks/useManagementPlanName";
 import { useSubmissionBannerState } from "@/hooks/useSubmissionBannerState";
 import { useSubmitAvailability } from "@/hooks/useSubmitAvailability";
-import { PACKAGE_STATUS, NON_CANONICAL_PACKAGE_STATUS, SubmissionPackageType } from "@/models/Package";
+import { PACKAGE_STATUS, NON_CANONICAL_PACKAGE_STATUS, SubmissionPackageType, MANAGEMENT_PLAN_RELATED_TYPES } from "@/models/Package";
 import { ACCOUNT_USER_PERMISSIONS } from "@/models/Role";
 import { SUBMISSION_TYPE } from "@/models/Submission";
 import {
@@ -581,8 +581,7 @@ export default function SubmissionPage() {
                 <RevisionRequiredBanner
                   contactEmail={contactEmail}
                   showDecisionLetterText={
-                    submissionPackage.type.name ===
-                    SubmissionPackageType.MANAGEMENT_PLAN
+                    MANAGEMENT_PLAN_RELATED_TYPES.includes(submissionPackage.type.name)
                   }
                 />
               </When>

@@ -19,7 +19,7 @@ import { useManagementPlanName } from "@/hooks/useManagementPlanName";
 import { useStaffSubmissionPage } from "@/hooks/useStaffSubmissionPage";
 import { useUpdateRequests } from "@/hooks/useUpdateRequests";
 import {
-  NON_WITHDRAWABLE_UPDATE_REQUEST_PACKAGE_TYPES,
+  MANAGEMENT_PLAN_RELATED_TYPES,
   PACKAGE_STATUS,
   SubmissionPackageType,
 } from "@/models/Package";
@@ -104,7 +104,7 @@ export default function SubmissionPage() {
   // types (e.g. Management Plans, IEM).
   const canWithdrawUpdate =
     !!submissionPackage?.type?.name &&
-    !NON_WITHDRAWABLE_UPDATE_REQUEST_PACKAGE_TYPES.includes(
+    !MANAGEMENT_PLAN_RELATED_TYPES.includes(
       submissionPackage.type.name,
     );
 

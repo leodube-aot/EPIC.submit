@@ -2,9 +2,9 @@ import dateutils from "@/utils/dateUtils";
 import { Chip, Stack, Typography } from "@mui/material";
 import { BCDesignTokens } from "epic.theme";
 import {
+  MANAGEMENT_PLAN_RELATED_TYPES,
   PACKAGE_STATUS,
   SubmissionPackage,
-  SubmissionPackageType,
 } from "@/models/Package";
 import { PackageStatusChipStack } from "@/components/App/PackageStatusChip/PackageStatusChipStack";
 import {
@@ -42,8 +42,7 @@ export default function StaffTableRow({ submissionPackage }: ProjectRowProps) {
 
   const { cc_completed_on, review_start_date, main_condition } = meta || {};
 
-  const isMP =
-    submissionPackage.type.name === SubmissionPackageType.MANAGEMENT_PLAN;
+  const isMPRelated = MANAGEMENT_PLAN_RELATED_TYPES.includes(submissionPackage.type.name);
   const isCompleted = Boolean(completed_on);
   const conditionNumber = main_condition?.condition_number;
 
@@ -56,7 +55,7 @@ export default function StaffTableRow({ submissionPackage }: ProjectRowProps) {
 
   const managementPlanName = useManagementPlanName(submissionPackage);
 
-  const condCell = isMP ? (
+  const condCell = isMPRelated ? (
     <StyledProjectTableCell align="left" sx={{ width: "5%" }}>
       {conditionNumber && (
         <Chip
@@ -71,7 +70,7 @@ export default function StaffTableRow({ submissionPackage }: ProjectRowProps) {
   ) : null;
 
   const nameCell = (
-    <StyledProjectTableCell sx={{ minWidth: "150px", width: isMP ? "35%" : "40%" }} align="left">
+    <StyledProjectTableCell sx={{ minWidth: "150px", width: isMPRelated ? "35%" : "40%" }} align="left">
       <Stack direction="row" spacing={1} alignItems="center">
         <SubmitLink
           sx={{
@@ -95,7 +94,7 @@ export default function StaffTableRow({ submissionPackage }: ProjectRowProps) {
     </StyledProjectTableCell>
   );
 
-  if (isMP && !isCompleted) {
+  if (isMPRelated && !isCompleted) {
     return (
       <>
         <StyledProjectTableRow>
@@ -145,7 +144,7 @@ export default function StaffTableRow({ submissionPackage }: ProjectRowProps) {
     );
   }
 
-  if (isMP && isCompleted) {
+  if (isMPRelated && isCompleted) {
     return (
       <>
         <StyledProjectTableRow>

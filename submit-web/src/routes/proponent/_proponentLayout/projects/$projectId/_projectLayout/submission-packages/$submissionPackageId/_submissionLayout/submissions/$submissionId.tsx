@@ -8,7 +8,7 @@ import {
 import { getSubmissionItemQueryOptions } from "@/hooks/api/useItems";
 import { getSubmissionPackageQueryOptions } from "@/hooks/api/usePackages";
 import { SubmissionItemMethod } from "@/models/SubmissionItem";
-import { SubmissionPackageType } from "@/models/Package";
+import { MANAGEMENT_PLAN_RELATED_TYPES } from "@/models/Package";
 import { UPDATE_REQUEST_STATUS } from "@/models/UpdateRequest";
 import { getSubmissionItemLabel } from "@/utils";
 import { HTTP_STATUS } from "@/utils/constants";
@@ -79,7 +79,7 @@ export function Submission() {
   }
 
   const isManagementPlan =
-    submissionPackage.type.name === SubmissionPackageType.MANAGEMENT_PLAN;
+    MANAGEMENT_PLAN_RELATED_TYPES.includes(submissionPackage.type.name);
 
   if (
     isPackageSubmitted &&

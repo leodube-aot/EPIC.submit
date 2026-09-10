@@ -30,6 +30,6 @@ class PackageApprovalType(enum.Enum):
     C = 'C'
 
 
-NON_WITHDRAWABLE_UPDATE_REQUEST_PACKAGE_TYPES = frozenset(
+MANAGEMENT_PLAN_RELATED_TYPES = frozenset(
     {PackageTypeEnum.MANAGEMENT_PLAN.value, PackageTypeEnum.IEM.value}
 )
